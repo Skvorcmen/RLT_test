@@ -36,13 +36,9 @@ async def main():
     bot = Bot(token=bot_token)
     dp = Dispatcher(storage=MemoryStorage())
     
-    # Подключаем обработчики
-    dp.include_router(router)
-    
     # Инициализируем сервисы
     database = Database()
     llm_service = LLMService()
-    query_builder = QueryBuilder(database)
     
     # Подключаемся к базе данных
     try:
@@ -51,9 +47,14 @@ async def main():
         logger.error(f"Ошибка при подключении к базе данных: {e}")
         sys.exit(1)
     
-    # Регистрируем зависимости для обработчиков
-    dp['llm_service'] = llm_service
-    dp['query_builder'] = query_builder
+    query_builder = QueryBuilder(database)
+    
+    # Устанавливаем сервисы в обработчики
+    from bot.handlers import set_services
+    set_services(llm_service, query_builder)
+    
+    # Подключаем обработчики
+    dp.include_router(router)
     
     try:
         logger.info("Бот запущен и готов к работе")
