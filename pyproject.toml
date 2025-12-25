@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "lrt-test"
+version = "0.1.0"
+description = "Telegram bot for video analytics"
+authors = ["Skvorcmen"]
+readme = "README.md"
+packages = [{include = "bot"}, {include = "database"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^3.0.0"
+asyncpg = "^0.29.0"
+openai = "^1.0.0"
+python-dotenv = "^1.0.0"
+aiofiles = "^23.0.0"
+gdown = "^4.7.0"
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
